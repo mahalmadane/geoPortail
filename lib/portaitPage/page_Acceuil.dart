@@ -45,7 +45,14 @@ class _PageAcceuilState extends State<PageAcceuil> {
           FloatingActionButton(onPressed: () {}, child: Icon(Icons.remove)),
         ],
       ),*/
-      body: page[current],
+      body: AnimatedSize(
+        curve: Curves.easeInOutCirc,
+        duration: Duration(milliseconds: 130),
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 150),
+          child: page[current],
+        ),
+      ),
     );
   }
 }
