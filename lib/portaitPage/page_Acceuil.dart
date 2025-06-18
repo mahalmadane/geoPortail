@@ -22,12 +22,10 @@ class _PageAcceuilState extends State<PageAcceuil> {
         currentIndex: current,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
+        backgroundColor: Colors.teal,
+        type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(
-            backgroundColor: Colors.teal,
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Stats"),
           BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Plus"),
@@ -38,15 +36,15 @@ class _PageAcceuilState extends State<PageAcceuil> {
           });
         },
       ),
-      floatingActionButton: Column(
+
+      /*floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         spacing: 15,
         children: [
           FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
           FloatingActionButton(onPressed: () {}, child: Icon(Icons.remove)),
         ],
-      ),
-
+      ),*/
       body: page[current],
     );
   }

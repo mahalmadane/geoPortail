@@ -5,7 +5,6 @@ class MyHomeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp();
   }
 }
@@ -18,8 +17,8 @@ class GridW extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 100,
+      height: 70,
+      width: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         color: Colors.teal.shade100,
@@ -29,8 +28,11 @@ class GridW extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(ic, size: 50, color: Colors.teal),
-            Text(name, style: const TextStyle(color: Colors.black)),
+            Icon(ic, size: 30, color: Colors.teal),
+            Text(
+              name,
+              style: const TextStyle(color: Colors.black, fontSize: 10),
+            ),
           ],
         ),
       ),

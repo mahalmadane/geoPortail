@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:project/drawer_class.dart';
 import 'package:project/portaitPage/my_grid/main_grid.dart';
@@ -18,6 +19,13 @@ class _HomePageState extends State<HomePage> {
     GridW(ic: Icons.face_retouching_natural, name: "Culture"),
     GridW(ic: Icons.nature, name: "Environnement"),
   ];
+
+  List<String> images = [
+    "images/1.jpg",
+    "images/2.jpg",
+    "images/3.jpg",
+    "images/4.jpg",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,21 +39,49 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: EdgeInsets.all(10),
         children: [
-          Text("Bienvenue sur le GeoPortail National"),
+          Text(
+            "Bienvenue sur le GeoPortail National",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
           Text(
             "Explorer les cartes et les donnees regionale et les ressources",
           ),
           SizedBox(
-            height: 500,
+            height: 250,
             child: GridView.builder(
               itemCount: grid.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (context, index) => grid[index],
             ),
+          ),
+
+          CarouselSlider(
+            items:
+                images.map((i) {
+                  return Builder(
+                    builder: (context) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            i,
+                            fit: BoxFit.cover,
+                            height: 200,
+                            width: 400,
+                          ),
+                        ), //Image.asset(i,)),
+                      );
+                    },
+                  );
+                }).toList(),
+            options: CarouselOptions(autoPlay: true),
           ),
         ],
       ),
