@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/portaitPage/page_Acceuil.dart';
+import 'package:project/portaitPage/data/notifiers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(child: PageAcceuil()),
+    return ValueListenableBuilder(
+      valueListenable: isDarkNotifier,
+      builder: (BuildContext context, dynamic value, Widget? child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // theme: value? ThemeData.dark() : ThemeData.light(), en fonction de dark et light
+          theme: ThemeData(
+            brightness:
+                isDarkNotifier.value ? Brightness.dark : Brightness.light,
+          ),
+          home: SafeArea(child: PageAcceuil()),
+        );
+      },
     );
   }
 }

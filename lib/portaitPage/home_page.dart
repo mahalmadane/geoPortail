@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:project/drawer_class.dart';
 import 'package:project/portaitPage/my_grid/main_grid.dart';
+import 'package:project/portaitPage/data/notifiers.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,6 +35,19 @@ class _HomePageState extends State<HomePage> {
         title: Text("GeoPortail Platteform"),
         centerTitle: true,
         backgroundColor: Colors.teal,
+        actions: [
+          IconButton(
+            onPressed: () {
+              isDarkNotifier.value = !isDarkNotifier.value;
+            },
+            icon: ValueListenableBuilder(
+              valueListenable: isDarkNotifier,
+              builder: (BuildContext context, dynamic value, Widget? child) {
+                return Icon(value ? Icons.light_mode : Icons.dark_mode);
+              },
+            ),
+          ),
+        ],
       ),
 
       body: ListView(
