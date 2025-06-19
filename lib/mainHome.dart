@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/portaitPage/page_Acceuil.dart';
 import 'package:project/portaitPage/data/notifiers.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
