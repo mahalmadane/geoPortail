@@ -32,6 +32,8 @@ class _MyFormState extends State<MyForm> {
   TextEditingController email = TextEditingController();
   TextEditingController nom = TextEditingController();
   TextEditingController num = TextEditingController();
+  bool _isChecked = false;
+  bool _visible = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,9 +46,17 @@ class _MyFormState extends State<MyForm> {
             TextFormField(
               controller: nom,
               decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
                 labelText: "Nom",
                 prefixIcon: Icon(Icons.person),
               ),
+              onSaved: (newValue) {
+                setState(() {
+                  nom.text = newValue!;
+                });
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Veuillez entrer un nom';
@@ -54,27 +64,60 @@ class _MyFormState extends State<MyForm> {
                 return null;
               },
             ),
+            const SizedBox(height: 20),
             TextFormField(
               keyboardType: TextInputType.emailAddress,
               controller: email,
               decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
                 labelText: "Email",
                 prefixIcon: Icon(Icons.email),
               ),
+              onSaved: (newValue) {
+                setState(() {
+                  email.text = newValue!;
+                });
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Veuillez entrer un email';
                 }
+                if (!value.contains('@')) {
+                  return 'Veuillez entrer un email valide';
+                }
+                if (!RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                ).hasMatch(value)) {
+                  return null;
+                }
+
                 return null;
               },
             ),
+            const SizedBox(height: 20),
             TextFormField(
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
                 labelText: "Mot de passe",
                 prefixIcon: Icon(Icons.lock),
-                suffixIcon: Icon(Icons.visibility),
+                suffixIcon: InkWell(
+                  child: Icon(
+                    _visible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _visible = !_visible;
+                    });
+                  },
+                ),
               ),
+
+              obscureText: _visible,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Veuillez entrer un mot de passe';
@@ -82,10 +125,16 @@ class _MyFormState extends State<MyForm> {
                 return null;
               },
             ),
+            const SizedBox(height: 20),
             TextFormField(
               style: const TextStyle(fontSize: 20),
               controller: num,
               keyboardType: TextInputType.phone,
+              onSaved: (newValue) {
+                setState(() {
+                  num.text = newValue!;
+                });
+              },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.teal),
@@ -102,28 +151,58 @@ class _MyFormState extends State<MyForm> {
             ),
             const SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Valider le formulaire
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Formulaire valide !')),
-                      );
-                    }
+                const Text("Checker pour valider le formulaire"),
+                Checkbox(
+                  value: _isChecked,
+
+                  onChanged: (value) {
+                    setState(() {
+                      _isChecked = value!;
+                    });
                   },
-                  child: const Text('Valider'),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Réinitialiser le formulaire
-                    _formKey.currentState!.reset();
-                  },
-                  child: const Text('Réinitialiser'),
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            _isChecked
+                ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 20,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Valider le formulaire
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Formulaire valide !'),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Valider'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Réinitialiser le formulaire
+                        _formKey.currentState!.reset();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Formulaire réinitialisé !'),
+                          ),
+                        );
+                      },
+                      child: const Text('Réinitialiser'),
+                    ),
+                  ],
+                )
+                : SizedBox(height: 0),
+
             const SizedBox(height: 20),
             Text('Nom: ${nom.text}'),
             Text('Email: ${email.text}'),
